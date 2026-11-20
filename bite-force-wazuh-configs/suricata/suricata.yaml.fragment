@@ -1,0 +1,29 @@
+# Bite Force Suricata configuration fragment.
+#
+# Merge these settings into the existing /etc/suricata/suricata.yaml.
+# Do not replace the whole distro-provided file. Avoid duplicate YAML
+# keys: edit the existing outputs and af-packet sections if present.
+#
+# 1) Under the existing `af-packet:` section, ensure the monitored
+#    interface is the victim's actual interface. The team's lab used ens5.
+#
+# af-packet:
+#   - interface: ens5
+#
+# 2) Under the existing `outputs:` list, ensure EVE JSON is enabled.
+#
+# outputs:
+#   - eve-log:
+#       enabled: yes
+#       filetype: regular
+#       filename: eve.json
+#       types:
+#         - alert
+#         - flow
+#         - tls
+#
+# The resulting EVE log path used by the Wazuh agent is:
+# /var/log/suricata/eve.json
+#
+# Confirm the interface name with: ip -br link
+# Confirm Suricata's effective configuration before restarting it.

@@ -1,0 +1,31 @@
+<group name="local,sshd,suricata,">
+  <!--
+    Bite Force L1B: repeated SSH authentication failures.
+    Reconstructed from the team's documented result:
+    parent rule 5760, five events in 120 seconds, same source IP.
+    Validate against the installed Wazuh ruleset before production use.
+  -->
+  <rule id="100101" level="10" frequency="5" timeframe="120">
+    <if_matched_sid>5760</if_matched_sid>
+    <same_source_ip />
+    <description>Bite Force: repeated SSH authentication failures from the same source IP</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+    <group>authentication_failures,ssh_brute_force,</group>
+  </rule>
+
+  <!--
+    Bite Force supplementary TLS telemetry.
+    The team's report documents parent rule 86604, level 8, and
+    destination port 443. This is a port-based indicator, not proof
+    of malicious activity or outbound direction by itself.
+  -->
+  <rule id="100401" level="8">
+    <if_sid>86604</if_sid>
+    <field name="event_type">^tls$</field>
+    <field name="dest_port">^443$</field>
+    <description>Bite Force: Suricata observed a TLS event to destination port 443; verify traffic direction</description>
+    <group>suricata,tls,network_telemetry,</group>
+  </rule>
+</group>

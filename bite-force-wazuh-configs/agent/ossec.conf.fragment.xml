@@ -1,0 +1,38 @@
+<!--
+  Bite Force Wazuh agent configuration fragment.
+
+  MERGE these blocks into the existing /var/ossec/etc/ossec.conf.
+  Do not replace the complete file: retain the existing <client> block
+  and any AMI-specific settings. If a <syscheck> or <localfile> section
+  already exists, add the relevant entries to that existing section
+  instead of creating duplicate top-level sections.
+-->
+<ossec_config>
+  <syscheck>
+    <disabled>no</disabled>
+    <scan_on_start>yes</scan_on_start>
+    <directories check_all="yes" realtime="yes">/etc/passwd</directories>
+    <directories check_all="yes" realtime="yes">/etc/shadow</directories>
+    <nodiff>/etc/shadow</nodiff>
+  </syscheck>
+
+  <localfile>
+    <log_format>syslog</log_format>
+    <location>/var/log/auth.log</location>
+  </localfile>
+
+  <localfile>
+    <log_format>apache</log_format>
+    <location>/var/log/apache2/access.log</location>
+  </localfile>
+
+  <localfile>
+    <log_format>apache</log_format>
+    <location>/var/log/apache2/error.log</location>
+  </localfile>
+
+  <localfile>
+    <log_format>json</log_format>
+    <location>/var/log/suricata/eve.json</location>
+  </localfile>
+</ossec_config>
