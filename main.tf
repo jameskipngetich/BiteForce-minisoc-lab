@@ -35,7 +35,7 @@ data "aws_ami" "wazuh" {
 resource "aws_instance" "wazuh_server_main" {
   ami                    = data.aws_ami.wazuh.id
   instance_type          = "c5a.xlarge" # Recommended minimum by Wazuh
-  key_name               = "debkey"
+  key_name               = "[your_own_ssh_key]"
   vpc_security_group_ids = [aws_security_group.allow_wazuh_comm.id]
   subnet_id              = aws_subnet.main.id
 
@@ -52,7 +52,7 @@ resource "aws_instance" "wazuh_server_main" {
 resource "aws_instance" "victim_server" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t3.medium"
-  key_name               = "debkey"
+  key_name               = "[your_own_ssh_key]"
   vpc_security_group_ids = [aws_security_group.allow_wazuh_comm.id]
   subnet_id              = aws_subnet.main.id
 
